@@ -26,12 +26,11 @@ new Vue({
   computed: {
     isAuthenticated: function () {
       // Returns true if the user is set.
-      return this.user.username !== ''
+      return this.user.username !== '' && this.isAdminDomain;
     },
     isAdminDomain: function () {
       // Return true if the domain is admin.*
-      // return window.location.host.split(".")[0] === "admin"
-      return true;
+      return window.location.host.split(".")[0] === "admin"
     }
   },
   render: function (createElement) {
