@@ -35,36 +35,61 @@
         name: "Nav",
         components: {JobOpportunityForm},
         data: () => ({
-            drawer: null,
-            navItems: [
-                {
-                    icon: 'mdi-hail',
-                    text: 'Job Listings',
-                    linkTo: '/'
-                },
-                {
-                    icon: 'mdi-inbox-arrow-down-outline',
-                    text: 'Info Requests',
-                    linkTo: '/info-requests'
-                },
-                {
-                    icon: 'mdi-clock-start',
-                    text: 'Pending Opportunities',
-                    linkTo: '/pending-opportunities'
-                },
-                // {
-                //     icon: 'mdi-lock',
-                //     text: 'Login',
-                //     linkTo: '/login'
-                // },
-            ]
+            override: undefined
         }),
         methods: {
             toggleDrawer: function() {
-                this.drawer = !this.drawer
+                this.drawer = !this.override;
             },
             submitJobOpportunityClicked: function () {
                 this.$refs.form.toggleShown()
+            }
+        },
+        computed: {
+              navItems: function () {
+                  let items = [
+                      {
+                          icon: 'mdi-hail',
+                          text: 'Job Listings',
+                          linkTo: '/',
+                          visibility: 'public'
+                      },
+                      {
+                          icon: 'mdi-inbox-arrow-down-outline',
+                          text: 'Info Requests',
+                          linkTo: '/info-requests',
+                          visibility: 'admin'
+                      },
+                      {
+                          icon: 'mdi-clock-start',
+                          text: 'Pending Opportunities',
+                          linkTo: '/pending-opportunities',
+                          visibility: 'admin'
+                      },
+                  ];
+
+                  if(!this.$root.isAuthenticated || !this.$root.isAdminDomain){
+                      items = items.filter((el) => {
+                          return el.visibility !== 'admin';
+                      });
+                  }
+
+                  return items;
+              },
+            drawer: {
+              get: function () {
+                  if (this.override !== undefined) {
+                      return this.override;
+                  }
+
+                  if (!this.$root.isAuthenticated && this.$root.isAdminDomain) {
+                      return false;
+                  }
+                  return true;
+              },
+                set: function (newValue) {
+                    this.override = newValue
+                }
             }
         }
     }

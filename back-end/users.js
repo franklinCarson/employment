@@ -11,7 +11,19 @@ const userSchema = new mongoose.Schema({
     lastName: String,
     username: String,
     password: String,
-    role: String,
+    role: {
+        type: String,
+        default: 'public'
+    },
+});
+
+userSchema.virtual('id')
+    .get(function () {
+        return this._id.toHexString();
+    });
+
+userSchema.set('toJSON', {
+    virtuals: true
 });
 
 
@@ -113,7 +125,7 @@ router.post('/login', async (req, res) => {
     const usernamePassWrong = "Username and password are wrong.";
 
     try {
-        let user = findUser(req.body.username);
+        let user = await findUser(req.body.username);
         // If the user doesn't exist return 403
         if(!user){
             return res.status(403)
@@ -131,6 +143,8 @@ router.post('/login', async (req, res) => {
         }
 
 
+        req.session.userID = user.id;
+
         return res.send({
             user: user
         })
@@ -140,9 +154,57 @@ router.post('/login', async (req, res) => {
     }
 });
 
+// Middleware function to check for logged-in users
+const validUser = async (req, res, next) => {
+    if (!req.session || !req.session.userID)
+        return res.status(403).send({
+            message: "not logged in"
+        });
+    try {
+        const user = await User.findOne({
+            _id: req.session.userID
+        });
+        if (!user) {
+            return res.status(403).send({
+                message: "not logged in"
+            });
+        }
+        // set the user field in the request
+        req.user = user;
+    } catch (error) {
+        // Return an error if user does not exist.
+        return res.status(403).send({
+            message: "Not logged in."
+        });
+    }
+
+    // if everything succeeds, move to the next middleware
+    next();
+};
+
+router.get('/', validUser, async (req, res) => {
+    try {
+        const user = await User.findOne({
+            _id: req.session.userID
+        });
+
+        if(!user){
+            return res.status(403).send({
+                message: "Not logged in."
+            })
+        }
+
+        return res.send(user);
+    } catch (e) {
+        console.log(e);
+        return res.sendStatus(500)
+    }
+});
+
 module.exports = {
     routes: router,
-    model: User
+    model: User,
+    valid: validUser
 };
 
 

@@ -111,7 +111,7 @@
             },
             submitReq(){
                 console.log(this.opportunityTitle);
-                axios.post('/api/infoRequest', {
+                axios.post('/api/infoRequests', {
                     firstName: this.firstName,
                     lastName: this.lastName,
                     email: this.email,

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <JobOpportunity state="public"
+        <JobOpportunity :state="state"
                         :opportunity="opportunity"
                         :opportunity-deleted="opportunityDeleted"
         />
@@ -12,7 +12,16 @@
     export default {
         components: {JobOpportunity},
         name: "JobListing",
-        props: ['opportunity', 'opportunityDeleted']
+        props: ['opportunity', 'opportunityDeleted'],
+        computed: {
+            state: function () {
+                if(this.$root.isAuthenticated){
+                    return "jobListingAdminLoggedIn";
+                }
+
+                return "public";
+            }
+        }
     }
 </script>
 

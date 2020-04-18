@@ -61,10 +61,17 @@
         }),
         methods: {
             login: async function(){
-                axios.post('/api/users/login', {
-                    username: this.username,
-                    password: this.password
-                })
+                try {
+                    this.$root.user = await axios.post('/api/users/login', {
+                        username: this.username,
+                        password: this.password
+                    });
+
+                    await this.$router.push('/')
+                } catch (e) {
+                    console.log(e)
+                }
+
             }
         }
     }

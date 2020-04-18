@@ -76,7 +76,7 @@
                 }
             },
             contacted: async function (request){
-                await axios.patch(`/api/infoRequest/${request.id}`)
+                await axios.patch(`/api/infoRequests/${request.id}`)
             }
         },
         created() {
