@@ -54,12 +54,8 @@ router.beforeEach(async (to, from, next) => {
 
   // If data isn't yet defined because of vue life cycle's, then request the user's data and wait until response.
   if(router.app.$data === undefined){
-    try {
-      let res = await axios.get('/api/users');
-      router.app.$emit('logged-in', res.data);
-    } catch (e) {
-      alert("A problem occurred while attempting to renew the connection. Please try again later.")
-    }
+    let res = await axios.get('/api/users');
+    router.app.$emit('logged-in', res.data);
   }
 
   // If the domain is admin and user is not logged in send to login.
