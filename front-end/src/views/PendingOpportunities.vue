@@ -31,7 +31,7 @@
                     let res = await axios.get("/api/opportunity/pending");
                     this.opportunities = res.data.opportunities;
                 } catch (e) {
-                    console.log(e)
+                    alert("Failed to get the pending opportunities. Please try again later.")
                 }
             },
             removedOpportunity: function (id) {

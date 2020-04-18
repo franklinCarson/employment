@@ -68,11 +68,10 @@
             getInfoRequests: async function () {
                 try {
                     let res = await axios.get('/api/infoRequests/pending');
-                    console.log(res);
                     this.requests = res.data
 
                 } catch (e) {
-                    console.log(e)
+                    alert("Failed to retrieve info requests, please try again later.")
                 }
             },
             contacted: async function (request){

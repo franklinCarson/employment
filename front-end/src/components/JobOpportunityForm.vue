@@ -140,7 +140,7 @@
                 try {
                     await axios.post("/api/opportunity", this.opportunity);
                 } catch (e) {
-                    console.log(e)
+                    alert("An error occurred while attempting to save the opportunity. Please try again later.")
                 }
             }
         }

@@ -39,7 +39,7 @@ export default {
         let res = await axios.get("/api/opportunity");
         this.opportunities = res.data.opportunities;
       } catch (e) {
-        console.log(e)
+        alert("Failed to get the current opportunities. Please check back later.")
       }
     },
     opportunityDeleted: function (id) {

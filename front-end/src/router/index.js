@@ -58,7 +58,7 @@ router.beforeEach(async (to, from, next) => {
       let res = await axios.get('/api/users');
       router.app.$emit('logged-in', res.data);
     } catch (e) {
-      console.log(e);
+      alert("A problem occurred while attempting to renew the connection. Please try again later.")
     }
   }
 

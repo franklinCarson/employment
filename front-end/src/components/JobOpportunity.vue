@@ -63,7 +63,6 @@
                     });
                     this.opportunityApproved(this.opportunity.id)
                 } catch(e){
-                    console.log(e);
                     alert("There was an error approved this opportunity. Please try again later.");
                 }
             },
@@ -75,7 +74,6 @@
                     });
                     this.opportunityDeclined(this.opportunity.id)
                 } catch (e) {
-                    console.log(e);
                     alert("There was an error declining this opportunity. Please try again later.");
                 }
             },
@@ -85,7 +83,6 @@
                     this.opportunityDeleted(this.opportunity.id);
                 } catch (e) {
                     alert("There was an error deleting this opportunity. Please try again later.");
-                    console.log(e);
                 }
             }
         }

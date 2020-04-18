@@ -69,7 +69,7 @@
 
                     await this.$router.push('/')
                 } catch (e) {
-                    console.log(e)
+                    alert("Failed to login, please make sure your username and password are correct.")
                 }
 
             }

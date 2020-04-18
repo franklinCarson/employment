@@ -110,13 +110,16 @@
                 this.submitReq()
             },
             submitReq(){
-                console.log(this.opportunityTitle);
-                axios.post('/api/infoRequests', {
-                    firstName: this.firstName,
-                    lastName: this.lastName,
-                    email: this.email,
-                    opportunityTitle: this.opportunityTitle
-                })
+                try {
+                    axios.post('/api/infoRequests', {
+                        firstName: this.firstName,
+                        lastName: this.lastName,
+                        email: this.email,
+                        opportunityTitle: this.opportunityTitle
+                    })
+                } catch (e) {
+                    alert("Sorry there was an error while trying to submit your request for more information. Please try again later.")
+                }
             }
         }
     }
